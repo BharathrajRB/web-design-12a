@@ -5,23 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Menu</title>
-
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      text-align: center;
-      padding: 10px;
-    }
-
-    section {
       margin: 20px;
     }
 
@@ -30,68 +16,59 @@
       margin-bottom: 5px;
     }
 
-    select {
-      margin-bottom: 15px;
-    }
-
+    select,
     button {
-      padding: 10px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    #result {
-      font-weight: bold;
-      margin-top: 20px;
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 16px;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Restaurant Menu</h1>
-  </header>
+  <h1>Restaurant Menu</h1>
 
-  <section>
-    <label for="item">Select an item:</label>
-    <select id="item">
-      <option value="burger">Burger - $5.99</option>
-      <option value="pizza">Pizza - $8.99</option>
-      <option value="salad">Salad - $4.99</option>
-    </select>
+  <label for="menuItems">Choose an item:</label>
+  <select id="menuItems">
+    <option value="burger">Burger - $5.99</option>
+    <option value="pizza">Pizza - $8.99</option>
+    <option value="pasta">Pasta - $6.99</option>
+    <!-- Add more menu items as needed -->
+  </select>
 
-    <button onclick="calculateTotal()">Add to Cart</button>
+  <button onclick="addItem()">Add to Cart</button>
 
-    <div id="result"></div>
-  </section>
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cartItems"></ul>
+    <p id="totalAmount">Total Amount: $0.00</p>
+  </div>
 
   <script>
-    function calculateTotal() {
-      // Get selected item
-      var selectedItem = document.getElementById('item').value;
+    function addItem() {
+      // Get selected item and its price
+      var selectElement = document.getElementById("menuItems");
+      var selectedItem = selectElement.options[selectElement.selectedIndex].text;
+      var itemPrice = parseFloat(selectedItem.match(/\$\d+\.\d+/)[0].substring(1));
 
-      // Define item prices
-      var itemPrices = {
-        'burger': 5.99,
-        'pizza': 8.99,
-        'salad': 4.99
-      };
-
-      // Check if the selected item is available
-      if (itemPrices.hasOwnProperty(selectedItem)) {
-        // Get the price of the selected item
-        var itemPrice = itemPrices[selectedItem];
-
-        // Display the result
-        document.getElementById('result').innerHTML = 'Selected Item: ' + selectedItem +
-          '<br>Price: $' + itemPrice.toFixed(2);
-      } else {
-        // Display a message if the item is not available
-        document.getElementById('result').innerHTML = 'Sorry, the selected item is not available.';
+      // Check if the item is not available
+      if (itemPrice === NaN) {
+        alert("This item is not available. Please choose another item.");
+        return;
       }
+
+      // Display the chosen item and update the total amount
+      var cartItemsElement = document.getElementById("cartItems");
+      var totalAmountElement = document.getElementById("totalAmount");
+
+      var listItem = document.createElement("li");
+      listItem.textContent = selectedItem;
+      cartItemsElement.appendChild(listItem);
+
+      var currentTotal = parseFloat(totalAmountElement.textContent.match(/\$\d+\.\d+/)[0].substring(1));
+      var newTotal = currentTotal + itemPrice;
+      totalAmountElement.textContent = "Total Amount: $" + newTotal.toFixed(2);
     }
   </script>
 
