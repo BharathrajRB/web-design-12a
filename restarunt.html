@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Menu</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    section {
+      margin: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select {
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Restaurant Menu</h1>
+  </header>
+
+  <section>
+    <label for="item">Select an item:</label>
+    <select id="item">
+      <option value="burger">Burger - $5.99</option>
+      <option value="pizza">Pizza - $8.99</option>
+      <option value="salad">Salad - $4.99</option>
+    </select>
+
+    <button onclick="calculateTotal()">Add to Cart</button>
+
+    <div id="result"></div>
+  </section>
+
+  <script>
+    function calculateTotal() {
+      // Get selected item
+      var selectedItem = document.getElementById('item').value;
+
+      // Define item prices
+      var itemPrices = {
+        'burger': 5.99,
+        'pizza': 8.99,
+        'salad': 4.99
+      };
+
+      // Check if the selected item is available
+      if (itemPrices.hasOwnProperty(selectedItem)) {
+        // Get the price of the selected item
+        var itemPrice = itemPrices[selectedItem];
+
+        // Display the result
+        document.getElementById('result').innerHTML = 'Selected Item: ' + selectedItem +
+          '<br>Price: $' + itemPrice.toFixed(2);
+      } else {
+        // Display a message if the item is not available
+        document.getElementById('result').innerHTML = 'Sorry, the selected item is not available.';
+      }
+    }
+  </script>
+
+</body>
+
+</html>
